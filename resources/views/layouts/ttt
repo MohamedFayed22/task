@@ -1,0 +1,592 @@
+@extends('layouts.app')
+@section('title')
+    {{__('pages.profiles')}}
+@endsection
+@section('style')
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets_'.direction().'/css/jquery-gmaps-latlon-picker.css') }}"/>
+
+    <style type="text/css">
+        .modal .icon-camera
+        {
+            font-size: 100px;
+            color: #797979
+        }
+
+        .modal input
+        {
+            margin-bottom: 4px
+        }
+
+        .reset
+        {
+            border:none;
+            background: #fff;
+            margin-right: 11px;
+        }
+
+        .icon-trash
+        {
+            margin-left: 8px;
+            color: red;
+        }
+
+        .dropdown-menu
+        {
+            min-width: 88px;
+        }
+
+        #hidden
+        {
+            display: none;
+        }
+    </style>
+
+
+@endsection
+
+
+{{--@section('content')--}}
+
+{{--<!-- Page header -->--}}
+{{--<div class="page-header">--}}
+
+    {{--<!-- Header content -->--}}
+    {{--<div class="page-header-content">--}}
+        {{--<div class="page-title">--}}
+            {{--<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">User Pages</span> - Profile</h4>--}}
+
+            {{--<ul class="breadcrumb position-right">--}}
+                {{--<li><a href="index.html">Home</a></li>--}}
+                {{--<li><a href="user_pages_profile.html">User pages</a></li>--}}
+                {{--<li class="active">Profile</li>--}}
+            {{--</ul>--}}
+        {{--</div>--}}
+
+        {{--<div class="heading-elements">--}}
+            {{--<div class="heading-btn-group">--}}
+                {{--<a href="#" class="btn btn-link btn-float text-size-small has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>--}}
+                {{--<a href="#" class="btn btn-link btn-float text-size-small has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>--}}
+                {{--<a href="#" class="btn btn-link btn-float text-size-small has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+    {{--<!-- /header content -->--}}
+
+
+    {{--<!-- Toolbar -->--}}
+    {{--<div class="navbar navbar-default navbar-component navbar-xs">--}}
+        {{--<ul class="nav navbar-nav visible-xs-block">--}}
+            {{--<li class="full-width text-center"><a data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>--}}
+        {{--</ul>--}}
+
+        {{--<div class="navbar-collapse collapse" id="navbar-filter">--}}
+            {{--<ul class="nav navbar-nav">--}}
+                {{--<li class="active"><a href="#activity" data-toggle="tab"><i class="icon-users2 position-left"></i> {{ __('pages.profiles') }}</a></li>--}}
+                {{--<li><a href="#schedule" data-toggle="tab"><i class="icon-lock4 position-left"></i> {{ __('pages.password') }} </a></li>--}}
+                {{--<li><a href="#settings" data-toggle="tab"><i class="icon-location3 position-left"></i> {{__('pages.location')}}</a></li>--}}
+                {{--@if(auth()->user()->admin != 1 )--}}
+                {{--<li><a href="#ticket" data-toggle="tab"><i class="icon-location3 position-left"></i> {{__('pages.ticket')}}</a></li>--}}
+                {{--@endif--}}
+            {{--</ul>--}}
+
+            {{--<div class="navbar-right">--}}
+                {{--<ul class="nav navbar-nav">--}}
+                    {{--<li><a href="#"><i class="icon-stack-text position-left"></i> Notes</a></li>--}}
+                    {{--<li><a href="#"><i class="icon-collaboration position-left"></i> Friends</a></li>--}}
+                    {{--<li><a href="#"><i class="icon-images3 position-left"></i> Photos</a></li>--}}
+                    {{--<li class="dropdown">--}}
+                        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-gear"></i> <span class="visible-xs-inline-block position-right"> Options</span> <span class="caret"></span></a>--}}
+                        {{--<ul class="dropdown-menu dropdown-menu-right">--}}
+                            {{--<li><a href="#"><i class="icon-image2"></i> Update cover</a></li>--}}
+                            {{--<li><a href="#"><i class="icon-clippy"></i> Update info</a></li>--}}
+                            {{--<li><a href="#"><i class="icon-make-group"></i> Manage sections</a></li>--}}
+                            {{--<li class="divider"></li>--}}
+                            {{--<li><a href="#"><i class="icon-three-bars"></i> Activity log</a></li>--}}
+                            {{--<li><a href="#"><i class="icon-cog5"></i> Profile settings</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+    {{--<!-- /toolbar -->--}}
+
+{{--</div>--}}
+{{--<!-- /page header -->--}}
+
+
+{{--<!-- Content area -->--}}
+{{--<div class="content">--}}
+
+    {{--@include('particals.messages')--}}
+
+    {{--<!-- User profile -->--}}
+    {{--<div class="row">--}}
+        {{--<div class="col-lg-9">--}}
+            {{--<div class="tabbable">--}}
+                {{--<div class="tab-content">--}}
+                    {{--<div class="tab-pane fade in active" id="activity">--}}
+                        {{--<!-- Profile info -->--}}
+                        {{--<div class="panel panel-flat">--}}
+                            {{--<div class="panel-heading">--}}
+                                {{--<h6 class="panel-title">Profile information</h6>--}}
+                                {{--<div class="heading-elements">--}}
+                                    {{--<ul class="icons-list">--}}
+                                        {{--<li><a data-action="collapse"></a></li>--}}
+                                        {{--<li><a data-action="reload"></a></li>--}}
+                                        {{--<li><a data-action="close"></a></li>--}}
+                                    {{--</ul>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<form role="form" method="post"  action="{{ route('postaddprofile') }}" class="ajax" enctype="multipart/form-data">--}}
+                             {{--{{ csrf_field() }}--}}
+                            {{--<div class="panel-body">--}}
+                                    {{--<div class="form-group">--}}
+                                                {{--<label>{{__('pages.first_name')}}</label>--}}
+                                                {{--<input type="text" name="firstname" id="firstname" value="{{ auth()->user()->firstname }}" class="form-control form-data-input">--}}
+                                                {{--<div class="error">{{ $errors->first('firstname') }}</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group">--}}
+                                        {{--<label>{{__('pages.last_name')}}</label>--}}
+                                        {{--<input type="text" name="lastname" id="lastname" value="{{ auth()->user()->lastname }}" class="form-control form-data-input">--}}
+                                        {{--<div class="error">{{ $errors->first('lastname') }}</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group">--}}
+                                        {{--<div class="row">--}}
+                                            {{--<div class="col-md-6">--}}
+                                                {{--<label>{{__('pages.email')}}</label>--}}
+                                                {{--<input type="text" name="email" id="email" value="{{ auth()->user()->email }}" class="form-control form-data-input">--}}
+                                            {{--</div>--}}
+
+                                            {{--<div class="col-md-6">--}}
+                                                {{--<label>{{__('pages.phone')}}</label>--}}
+                                                {{--<input type="text" name="phone" id="phone" value="{{ auth()->user()->phone }}" class="form-control form-data-input">--}}
+                                            {{--</div>--}}
+
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group">--}}
+                                        {{--<div class="row">--}}
+                                                {{--<div class="col-md-6">--}}
+                                                    {{--<div class="media no-margin-top">--}}
+                                                        {{--<div class="media-left">--}}
+                                                            {{--<a href="#"><img src="{{ asset('assets_'.direction().'/assets/images/placeholder.jpg') }}" style="width: 58px; height: 58px;" class="img-rounded" alt=""></a>--}}
+                                                        {{--</div>--}}
+
+                                                        {{--<div class="media-body">--}}
+                                                            {{--<input type="file" name="avatar" class="file-styled form-data-input">--}}
+                                                            {{--<span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb</span>--}}
+                                                        {{--</div>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+
+
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="text-right">--}}
+                                        {{--<button type="submit" class="btn btn-primary">Save <i class="icon-arrow-right14 position-right"></i></button>--}}
+                                    {{--</div>--}}
+
+                            {{--</div>--}}
+                            {{--</form>--}}
+                        {{--</div>--}}
+                        {{--<!-- /profile info -->--}}
+
+
+                    {{--</div>--}}
+
+                    {{--<div class="tab-pane fade" id="schedule">--}}
+
+                        {{--<div class="panel panel-flat">--}}
+                            {{--<div class="panel-heading">--}}
+                                {{--<h6 class="panel-title">Password information</h6>--}}
+                                {{--<div class="heading-elements">--}}
+                                    {{--<ul class="icons-list">--}}
+                                        {{--<li><a data-action="collapse"></a></li>--}}
+                                        {{--<li><a data-action="reload"></a></li>--}}
+                                        {{--<li><a data-action="close"></a></li>--}}
+                                    {{--</ul>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<form role="form" method="post" action="{{ route('updatePassword') }}" class="ajax">--}}
+                                {{--{{ csrf_field() }}--}}
+                                {{--<div class="panel-body">--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<label>{{__('pages.lastpassword')}}</label>--}}
+                                        {{--<input type="password" name="lastpassword" id="lastpassword" class="form-control form-data-input">--}}
+                                        {{--<div class="error">{{ $errors->first('lastpassword') }}</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group">--}}
+                                        {{--<label>{{__('pages.newpassword')}}</label>--}}
+
+                                        {{--<input type="password" name="newpassword" id="newpassword" class="form-control form-data-input">--}}
+                                        {{--<div class="error">{{ $errors->first('newpassword') }}</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group">--}}
+                                        {{--<label>{{__('pages.password_confirmation')}}</label>--}}
+                                        {{--<input type="password" name="password_confirmation" id="password_confirmation" class="form-control form-data-input">--}}
+                                        {{--<div class="error">{{ $errors->first('password_confirmation') }}</div>--}}
+                                    {{--</div>--}}
+
+
+
+                                    {{--<div class="text-right">--}}
+                                        {{--<button type="submit" class="btn btn-primary">Save <i class="icon-arrow-right14 position-right"></i></button>--}}
+                                    {{--</div>--}}
+
+                                {{--</div>--}}
+                            {{--</form>--}}
+                        {{--</div>--}}
+
+                    {{--</div>--}}
+
+
+                    {{--<div class="tab-pane fade" id="settings">--}}
+                        {{--<div class="panel panel-flat">--}}
+                            {{--<div class="panel-heading">--}}
+                                {{--<h6 class="panel-title">Password information</h6>--}}
+                                {{--<div class="heading-elements">--}}
+                                    {{--<ul class="icons-list">--}}
+                                        {{--<li><a data-action="collapse"></a></li>--}}
+                                        {{--<li><a data-action="reload"></a></li>--}}
+                                        {{--<li><a data-action="close"></a></li>--}}
+                                    {{--</ul>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="panel-body">--}}
+
+                                {{--<fieldset class="gllpLatlonPicker">--}}
+
+                                    {{--<div class="row">--}}
+                                    {{--<div class="col-lg-10">--}}
+
+                                    {{--<div class="form-group ">--}}
+                                    {{--<label>{{__('pages.address')}}</label>--}}
+                                    {{--<input type="text"  class="form-control gllpSearchField">--}}
+                                    {{--<div class="error">{{ $errors->first('address') }}</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--</div>--}}
+
+                                    {{--<div class="col-lg-2">--}}
+
+                                    {{--<button type="submit" class="btn btn-success gllpSearchButton">{{__('pages.search')}} </button>--}}
+
+                                    {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<br/><br/>--}}
+                                    {{--<div class="form-group">--}}
+                                    {{--<div class="gllpMap">Google Maps</div>--}}
+                                    {{--</div>--}}
+                                    {{--<br/>--}}
+
+                                    {{--<form role="form" method="post" action="{{ route('updateAddress') }}" class="ajax">--}}
+                                    {{--{{ csrf_field() }}--}}
+
+
+                                        {{--<div class="form-group">--}}
+                                        {{--<label>{{__('pages.latitude')}}</label>--}}
+                                        {{--<input type="text" name="latitude"  disabled value="@if (auth()->user()->latitude == '') 24.713552  @else  {{ auth()->user()->latitude }}   @endif " class="form-control form-data-input gllpLatitude">--}}
+                                        {{--<div class="error">{{ $errors->first('latitude') }}</div>--}}
+                                        {{--</div>--}}
+
+
+                                        {{--<div class="form-group">--}}
+                                        {{--<label>{{__('pages.longitude')}}</label>--}}
+                                        {{--<input type="text" name="longitude" id="longitude" disabled value="@if (auth()->user()->longitude == '') 46.675296  @else  {{ auth()->user()->longitude }}   @endif" class="form-control form-data-input gllpLongitude">--}}
+                                        {{--<div class="error">{{ $errors->first('longitude') }}</div>--}}
+                                        {{--</div>--}}
+
+
+                                        {{--<div class="form-group">--}}
+                                        {{--<label>{{__('pages.zoom')}}</label>--}}
+                                        {{--<input type="text" name="zoom" id="zoom"--}}
+                                        {{--value="@if (auth()->user()->zoom == '') 7  @else  {{ auth()->user()->zoom }}   @endif"--}}
+                                        {{--class="form-control form-data-input gllpZoom">--}}
+                                        {{--<div class="error">{{ $errors->first('zoom') }}</div>--}}
+                                        {{--</div>--}}
+
+                                    {{--<input type="button" class="gllpUpdateButton" value="update map">--}}
+                                        {{--<div class="text-right">--}}
+                                        {{--<button type="submit" class="btn btn-primary">Save <i class="icon-arrow-right14 position-right"></i></button>--}}
+                                        {{--</div>--}}
+
+                                    {{--</form>--}}
+                                {{--</fieldset>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+
+                    {{--</div>--}}
+
+                     {{--@if(auth()->user()->admin != 1 )--}}
+                        {{--<div class="tab-pane fade" id="ticket">--}}
+                        {{--<div class="panel panel-flat">--}}
+                            {{--<div class="panel-heading">--}}
+                                {{--<h6 class="panel-title">Ticket information</h6>--}}
+                                {{--<div class="heading-elements">--}}
+                                    {{--<ul class="icons-list">--}}
+                                        {{--<li><a data-action="collapse"></a></li>--}}
+                                        {{--<li><a data-action="reload"></a></li>--}}
+                                        {{--<li><a data-action="close"></a></li>--}}
+                                    {{--</ul>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="panel-body">--}}
+                                {{--<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success openAddModal"><i class="icon-plus3"></i>{{__('pages.addTicket')}} </button>--}}
+                                {{--<table id="profileTicketDataTable" class="table table-delete-action datatable-button-html5-columns" style="width: 100%">--}}
+                                    {{--<thead>--}}
+                                    {{--<tr>--}}
+                                        {{--<th>{{ __('pages.id') }}</th>--}}
+                                        {{--<th>{{ __('pages.text') }}</th>--}}
+                                        {{--<th>{{ __('pages.status') }}</th>--}}
+                                        {{--<th>{{ __('pages.type') }}</th>--}}
+                                        {{--<th>{{ __('pages.created_at') }}</th>--}}
+                                        {{--<th>{{ __('pages.action') }}</th>--}}
+                                    {{--</tr>--}}
+                                    {{--</thead>--}}
+                                {{--</table>--}}
+                                {{--{!! $dataTable->table(['class' => 'table table-delete-action datatable-button-html5-columns' , 'width' => '100%'],true) !!}--}}
+
+                            {{--</div>--}}
+
+                        {{--</div>--}}
+
+                    {{--</div>--}}
+                    {{--@endif--}}
+
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
+        {{--<div class="col-lg-3">--}}
+
+            {{--<!-- User thumbnail -->--}}
+            {{--<div class="thumbnail">--}}
+                {{--<div class="thumb thumb-rounded thumb-slide">--}}
+                    {{--<img src="@if(auth()->user()->avatar == '')    {{ asset('assets_'.direction().'/assets/images/placeholder.jpg') }} @else {{ asset('uploads/avatar/'.auth()->user()->avatar ) }} @endif" alt="">--}}
+
+                {{--</div>--}}
+
+                {{--<div class="caption text-center">--}}
+                    {{--<h6 class="text-semibold no-margin">{{ auth()->user()->firstname }} {{ auth()->user()->lastname }} <small class="display-block">UX/UI designer</small></h6>--}}
+                    {{--<ul class="icons-list mt-15">--}}
+                        {{--<li><a href="#" data-popup="tooltip" title="Google Drive"><i class="icon-google-drive"></i></a></li>--}}
+                        {{--<li><a href="#" data-popup="tooltip" title="Twitter"><i class="icon-twitter"></i></a></li>--}}
+                        {{--<li><a href="#" data-popup="tooltip" title="Github"><i class="icon-github"></i></a></li>--}}
+                    {{--</ul>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<!-- /user thumbnail -->--}}
+
+
+            {{--<!-- Navigation -->--}}
+            {{--<div class="panel panel-flat">--}}
+                {{--<div class="panel-heading">--}}
+                    {{--<h6 class="panel-title">Navigation</h6>--}}
+                    {{--<div class="heading-elements">--}}
+                        {{--<a href="#" class="heading-text">See all &rarr;</a>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+                {{--<div class="list-group no-border no-padding-top">--}}
+                    {{--<a href="#" class="list-group-item"><i class="icon-user"></i> My profile</a>--}}
+                    {{--<a href="#" class="list-group-item"><i class="icon-cash3"></i> Balance</a>--}}
+                    {{--<a href="#" class="list-group-item"><i class="icon-tree7"></i> Connections <span class="badge bg-danger pull-right">29</span></a>--}}
+                    {{--<a href="#" class="list-group-item"><i class="icon-users"></i> Friends</a>--}}
+                    {{--<div class="list-group-divider"></div>--}}
+                    {{--<a href="#" class="list-group-item"><i class="icon-calendar3"></i> Events <span class="badge bg-teal-400 pull-right">48</span></a>--}}
+                    {{--<a href="#" class="list-group-item"><i class="icon-cog3"></i> Account settings</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<!-- /navigation -->--}}
+
+
+
+        {{--</div>--}}
+    {{--</div>--}}
+    {{--<!-- /user profile -->--}}
+
+
+    {{--<!-- Footer -->--}}
+      {{--@include('particals.footer')--}}
+    {{--<!-- /footer -->--}}
+
+{{--</div>--}}
+{{--<!-- /content area -->--}}
+
+
+
+{{--@endsection--}}
+
+@section('script2')
+
+    <script type="text/javascript" src="{{ asset('assets_'.direction().'/assets/js/plugins/tables/datatables/datatables.min.js')}}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets_'.direction().'/assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets_'.direction().'/assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets_'.direction().'/assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets_'.direction().'/assets/js/plugins/tables/datatables/extensions/buttons.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets_'.direction().'/assets/js/pages/datatables_extension_buttons_html5.js')}}"></script>
+    <script src="{{ asset('/vendor/datatables/buttons.server-side.js') }}"></script>
+    {!! $dataTable->scripts() !!}
+
+    <script src="{{ asset('assets_'.direction().'/js/jquery-2.1.1.min.js') }}"></script>
+    <script type="text/javascript" src='http://maps.google.com/maps/api/js?key=AIzaSyAgcpIaG-7xWyIDpSnORjMJy-IVTvsVJPU&libraries=places'></script>
+    <script src="{{ asset('assets_'.direction().'/js/jquery-gmaps-latlon-picker.js') }}"></script>
+
+    <!-- other code -->
+    <script type="text/javascript">
+
+        function ChooseFile(){$("input[name='edit_photo']").click()}
+        function addChooseFile(){$("input[name='photo']").click()}
+
+    </script>
+    <!-- /other code -->
+
+
+@endsection
+
+
+
+
+<!-- Modal -->
+{{--<!-- Add user Modal -->--}}
+{{--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+    {{--<div class="modal-dialog" role="document">--}}
+        {{--<div class="modal-content">--}}
+            {{--<div class="modal-header">--}}
+                {{--<h5 class="modal-title" id="exampleModalLabel">Feedback</h5>--}}
+            {{--</div>--}}
+            {{--<div class="modal-body">--}}
+                {{--<div class="row">--}}
+                    {{--<form action="{{ route('storeTicket') }}" method="POST" enctype="multipart/form-data">--}}
+                        {{--{{csrf_field()}}--}}
+                        {{--<div class="col-sm-3 text-center">--}}
+                            {{--<label style="margin-bottom: 0"> choose image</label>--}}
+                            {{--<i class="icon-camera"  onclick="addChooseFile()" style="cursor: pointer;"></i>--}}
+                            {{--<div class="images-upload-block">--}}
+                                {{--<input type="file" name="photo"  class="image-uploader"   id="image">--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+
+                        {{--<div class="col-sm-9" style="margin-top: 12px">--}}
+                            {{--<select class="form-control" name="type" id="type">--}}
+                                {{--<option value="problem">{{ __('pages.problem') }}</option>--}}
+                                {{--<option value="problem-device">{{ __('pages.problem-pc') }}</option>--}}
+                                {{--<option value="add-job">{{ __('pages.add-job-report') }}</option>--}}
+                                {{--<option value="edit-job">{{ __('pages.edit-job-report') }}</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+
+                        {{--<div class="col-sm-9" style="margin-top: 12px">--}}
+                            {{--<textarea  name="description" id="description" class="form-control" placeholder="{{__('pages.message')}} " ></textarea>--}}
+                        {{--</div>--}}
+
+
+
+
+
+                        {{--<div class="col-sm-12" style="margin-top: 10px">--}}
+                            {{--<button type="submit" class="btn btn-primary addCategory">{{__('pages.add')}}</button>--}}
+                            {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('pages.close')}}</button>--}}
+                        {{--</div>--}}
+
+                    {{--</form>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
+{{--<!-- /Add user Modal -->--}}
+
+
+{{--@section('script')--}}
+
+{{--<script type="text/javascript">--}}
+    {{--$('#exampleModal').on('click', '.addCategory', function() {--}}
+        {{--var type        =  $('#type').val();--}}
+
+        {{--var description =  $('#description').val();--}}
+        {{--var image = $('#image')[0].files[0];--}}
+
+        {{--var formData = new FormData();--}}
+        {{--formData.append('type', type);--}}
+        {{--formData.append('description', description);--}}
+        {{--formData.append('image', image);--}}
+        {{--formData.append('_token', $('input[name=_token]').val());--}}
+        {{--$.ajax({--}}
+            {{--url: '{{ url('/feedback-send') }}',--}}
+            {{--type: 'post',--}}
+            {{--contentType: false,--}}
+            {{--processData: false,--}}
+            {{--data:formData,--}}
+            {{--success: function(data) {--}}
+                {{--console.log(data);--}}
+            {{--},--}}
+            {{--error:function () {--}}
+                {{--console.log('error')--}}
+            {{--}--}}
+        {{--});--}}
+    {{--});--}}
+{{--</script>--}}
+
+{{--@endsection--}}
+
+
+{{--@section('script2')--}}
+
+    {{--<script type="text/javascript" src="{{  asset('assets_'.direction().'/assets/js/plugins/tables/datatables/datatables.min.js')}}"></script>--}}
+    {{--<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>--}}
+    {{--<script type="text/javascript" src="{{  asset('assets_'.direction().'/assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js')}}"></script>--}}
+    {{--<script type="text/javascript" src="{{  asset('assets_'.direction().'/assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js')}}"></script>--}}
+
+    {{--<script type="text/javascript" src="{{  asset('assets_'.direction().'/assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js')}}"></script>--}}
+    {{--<script type="text/javascript" src="{{  asset('assets_'.direction().'/assets/js/plugins/tables/datatables/extensions/buttons.min.js')}}"></script>--}}
+    {{--<script type="text/javascript" src="{{  asset('assets_'.direction().'/assets/js/pages/datatables_extension_buttons_html5.js')}}"></script>--}}
+    {{--<script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.7/js/dataTables.checkboxes.min.js"></script>--}}
+    {{--<script type="text/javascript" src="https://cdn.datatables.net/select/1.2.5/js/dataTables.select.min.js"></script>--}}
+
+
+    {{--{!! $dataTable->scripts() !!}--}}
+
+    {{--<script type="text/javascript">--}}
+
+
+        {{--$('#profileTicketDataTable').DataTable({--}}
+            {{--"ajax": "{{ url('profile/ProfileTicketsDataTable') }}",--}}
+
+            {{--'serverSide': true,--}}
+            {{--"processing":true,--}}
+
+            {{--"language": {--}}
+                {{--"url": "{{ asset(app()->getLocale().'-datatable.json')  }}"--}}
+            {{--},--}}
+            {{--"columns": [--}}
+                {{--{data: 'id'},--}}
+                {{--{data: 'text' },--}}
+                {{--{data: 'status'},--}}
+                {{--{data: 'type' },--}}
+                {{--{data: 'created_at'},--}}
+                {{--{data: 'action' }--}}
+
+            {{--]--}}
+
+        {{--});--}}
+
+
+
+
+
+
+    {{--</script>--}}
+
+{{--@endsection--}}

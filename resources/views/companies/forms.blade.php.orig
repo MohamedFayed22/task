@@ -1,0 +1,269 @@
+
+
+@if(isset($group))
+
+    {!! Form::model($group,['route'=>['postupdategroups',$group->id],'method'=>'post','role'=>'form','class'=>'form-horizontal']) !!}
+
+
+@else
+
+    {!! Form::open(['route'=>'postaddgroups' ,'role'=>'form','class'=>'form-horizontal']) !!}
+
+
+@endif
+
+
+
+
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h6 class="panel-title">{{ __('pages.groups') }}</h6>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <li><a data-action="reload"></a></li>
+                <li><a data-action="close"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="tabbable nav-tabs-vertical nav-tabs-left">
+            <ul class="nav nav-tabs nav-tabs-highlight">
+                <li class="active"><a href="#left-tab4"  data-toggle="tab"><i class="icon-mention position-left"></i>{{ __('pages.Data') }}</a></li>
+
+                <li class=""><a href="#left-tab5" class="clicked" data-toggle="tab"><i class="icon-accessibility position-left"></i> {{ __('pages.attribute') }}</a></li>
+
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane has-padding active" id="left-tab4" style="padding-top: 0">
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">{{__('pages.ar-name')}}</label>
+                        <div class="col-lg-10">
+                            <input type="text" name="name[ar]" value="{{ isset($group) ? $name['ar'] : '' }}" class="form-control" placeholder="{{__('pages.ar-name')}}">
+                            <div class="error">{{ $errors->first('name') }}</div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" >
+                        <label class="col-lg-2 control-label">{{__('pages.en-name')}}</label>
+                        <div class="col-lg-10">
+                            <input type="text" name="name[en]" value="{{ isset($group) ? $name['en'] : '' }}" class="form-control" placeholder="{{__('pages.en-name')}}">
+                            <div class="error">{{ $errors->first('name') }}</div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Select your state:</label>
+                        <div class="col-lg-10">
+
+                            {!! Form::select('group_id', $selects, null,  ['class'=>'select','data-placeholder'=>'choose Group']) !!}
+                            <div class="error">{{ $errors->first('group_id') }}</div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+<<<<<<< HEAD
+                <div class="tab-pane has-padding" id="left-tab5" style="padding-top: 0" >
+                    <div class="form-group ">
+=======
+
+
+
+
+
+                <div class="tab-pane animated fadeInUp" id="css-animate-tab2">
+>>>>>>> 1a1d4eed45e775e7f68cafc6ce4e2a59018f6fec
+
+                    <div class="panel panel-flat">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">{{ __('pages.attribute') }}</h5>
+                            <div class="heading-elements">
+                                <ul class="icons-list">
+                                    <li><a data-action="collapse"></a></li>
+                                    <li><a data-action="reload"></a></li>
+
+                                </ul>
+
+
+<<<<<<< HEAD
+                        @if(isset($group) && $selected != null )
+=======
+                            </div>
+                        </div>
+>>>>>>> 1a1d4eed45e775e7f68cafc6ce4e2a59018f6fec
+
+
+                        <div class="panel-body attr">
+
+                            @if(isset($group))
+
+
+                                <?php $i=0; ?>
+
+                                @forelse(getAttributes($group->attributes) as $key => $value)
+
+<<<<<<< HEAD
+                                            <div class="form-group">
+                                                <label>{{__('pages.name')}} </label>
+                                                <input type="text" name="key[]" value="{{ isset($group) ? $key : '' }}" class="form-control"/>
+                                                <div class="error">{{ $errors->first('key') }}</div>
+=======
+                                    <div class="fieldGroup">
+>>>>>>> 1a1d4eed45e775e7f68cafc6ce4e2a59018f6fec
+
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <div class="col-lg-12">
+                                                    <input type="text" name="key[]" value="{{ $key }}"   class="form-control form-data-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+<<<<<<< HEAD
+                                                <label for="value">{{__('pages.value')}} </label>
+                                                <input type="text" name="value[]"
+                                                       value="{{ isset($group) ? $value : '' }}"
+                                                       class="form-control">
+                                                <div class="error">{{ $errors->first('value') }}</div>
+
+=======
+                                                <div class="col-lg-12">
+                                                    <input type="text" name="value[]" value="{{ $value }}"   class="form-control form-data-input">
+                                                </div>
+>>>>>>> 1a1d4eed45e775e7f68cafc6ce4e2a59018f6fec
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <a href="#" class="label label-danger remove" style=" padding: 3px;">{{ __('pages.minus-more') }} <i class="fa fa-minus-circle" style="font-size:13px"></i></a>
+                                            @if ($i == 0)
+                                                <a href="#" class="label label-success addMoreAttribute" style=" padding: 3px;"> {{ __('pages.add-more') }} <i class="fa fa-plus-circle" style="font-size:13px"></i></a>
+                                            @endif
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <?php $i++; ?>
+                                @empty
+                                    <div class="fieldGroup">
+
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <div class="col-lg-12">
+                                                    <input type="text" name="key[]" placeholder="{{ __('pages.name') }}:"  class="form-control form-data-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <div class="col-lg-12">
+                                                    <input type="text" name="value[]" placeholder="{{ __('pages.value') }}:"  class="form-control form-data-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a href="#" class="label label-danger remove" style=" padding: 3px;">{{ __('pages.minus-more') }} <i class="fa fa-minus-circle" style="font-size:13px"></i></a>
+                                            <a href="#" class="label label-success addMoreAttribute" style=" padding: 3px;"> {{ __('pages.add-more') }} <i class="fa fa-plus-circle" style="font-size:13px"></i></a>
+                                        </div>
+
+
+                                    </div>
+                                @endforelse
+
+
+
+                            @else
+
+                                <div class="fieldGroup">
+
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <input type="text" name="key[]" placeholder="{{ __('pages.name') }}:"  class="form-control form-data-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <input type="text" name="value[]" placeholder="{{ __('pages.value') }}:"  class="form-control form-data-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="#" class="label label-success addMoreAttribute" style=" padding: 3px;"> {{ __('pages.add-more') }} <i class="fa fa-plus-circle" style="font-size:13px"></i></a>
+                                    </div>
+
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary">{{__('pages.save')}} <i
+                        class="icon-arrow-right14 position-right"></i></button>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+{!! Form::close() !!}
+
+
+
+
+
+<div class="fieldGroupCopy" style="display: none;">
+    <div class="col-md-5">
+        <div class="form-group">
+            <div class="col-lg-12">
+                <input type="text" name="key[]" placeholder="{{ __('pages.name') }}:"  class="form-control form-data-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="form-group">
+            <div class="col-lg-12">
+                <input type="text" name="value[]" placeholder="{{ __('pages.value') }}:"  class="form-control form-data-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <a href="#" class="label label-danger remove" style=" padding: 3px;">{{ __('pages.minus-more') }} <i class="fa fa-minus-circle" style="font-size:13px"></i></a>
+    </div>
+
+</div>
+
+
+
